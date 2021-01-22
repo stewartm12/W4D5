@@ -17,24 +17,32 @@ arr = [0, 1, 5, 7]
 
 def okay_two_sum?(arr, target_sum)
   arr = arr.sort!
-  arr.each_with_index do |ele, i|
-    c_ele = target_sum - ele  
-    return true if arr[i + 1..-1].include?(c_ele)
-  end
-
-  false  
+  i = 0
+  j = arr.length - 1
+  while i != j
+    if arr[i] + arr[j] == target_sum
+      return true
+    elsif arr[i] + arr[j] < target_sum
+      i += 1
+    elsif arr[i] + arr[j] > target_sum
+      j -= 1
+    end 
+  end 
+  false
 end
 
-# p okay_two_sum?(arr, 6) # => should be true
-# p okay_two_sum?(arr, 10) # => should be false
+p okay_two_sum?(arr, 6) # => should be true
+p okay_two_sum?(arr, 10) # => should be false
 
 def hash_two_sum?(arr, target_sum)
   hash = Hash.new(0)
-
   arr.each { |ele| hash[ele] += 1}
-  hash.each { |k, v| return true if hash.include?(target_sum - k) }
+  hash.each do |k, v| 
+    hash.delete(k)
+    return true  if hash.include?(target_sum - k)
+  end 
   false 
 end
 
-p hash_two_sum?(arr, 6) # => should be true
-p hash_two_sum?(arr, 10) # => should be false
+# p hash_two_sum?(arr, 6) # => should be true
+# p hash_two_sum?(arr, 10) # => should be false
